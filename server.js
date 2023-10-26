@@ -19,6 +19,11 @@ const io = new Server(server);
 // connection establish means
 // a frontend is accessing my backend
 io.on("connection", (socket) => {
+    // we are catching the event 
+    // that's getting emitted in UI
+    socket.on('this is event name',(data)=>{ // echo123 is the name of the event
+        io.emit('this is event name',data);
+    })
     // so the IO is unique and it's associated
     // with my server
     // and sockets are multiple and are associated
@@ -41,3 +46,13 @@ server.listen(PORT,()=>{
 
 // the moment my server is turned on
 // I should get an IO
+
+// fetch(URL)
+// io() -> this will give me access to socket in my frontend
+// I need socket io logic in frontend
+// either you can import from node modules or
+// access it through cdn
+
+
+
+// socket 

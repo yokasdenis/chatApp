@@ -1,8 +1,15 @@
+var socket = io();
+const SENT = 'SENT';
+const RECIEVED = 'RECIEVED';
+
 let username = "";
 const btn = document.getElementById("join-chat");
 const usernameInput = document.getElementById("username-input");
 const form = document.getElementById("form");
 const chatroomContainer = document.querySelector(".chatroom-container");
+const messageInput = document.getElementById('message-input');
+const sendButton = document.getElementById('send-button');
+const messageContainer = document.querySelector('.messages');
 
 btn.addEventListener("click", (event) => {
   event.preventDefault();
@@ -15,6 +22,16 @@ btn.addEventListener("click", (event) => {
   }
 });
 
+sendButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  let data = {
+    id: socket.id,
+    username: username,
+    message: messageInput.value,
+  };
+  socket.emit("this is event name", data);
+  renderMessage(data, SENT);
+});
 
 // align-items will give alignment to all the divs present 
 // inside the flex containter
@@ -24,3 +41,24 @@ btn.addEventListener("click", (event) => {
 // basic server and sockets
 
 // promise combinations
+
+socket.on("this is event name", (data) => {
+  if (data.id !== socket.id) {
+    renderMessage(data, RECIEVED);
+  }
+});
+
+// click -> is basically emit
+// btn.addEvenListener('click',fn) -> .on
+
+function renderMessage(data, messageType) {
+  const msgDiv = document.createElement("div");
+  msgDiv.innerText = `${data.username} : ${data.message}`;
+  if (messageType === SENT) {
+    msgDiv.setAttribute("class", "message sent");
+  } else {
+    msgDiv.setAttribute("class", "message");
+  }
+  messageContainer.appendChild(msgDiv);
+  messageInput.value = "";
+}
