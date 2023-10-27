@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io(); // io fn we are getting from cdn
 const SENT = 'SENT';
 const RECIEVED = 'RECIEVED';
 

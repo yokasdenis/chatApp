@@ -1,12 +1,14 @@
-const express = require('express'); // express was giving a fn
-const http = require('http');
-const { Server } = require("socket.io"); // it gives me an obj
+const express = require("express"); // express was giving a fn
+const http = require("http");
+const socketIoObj = require("socket.io"); // it gives me an obj
+console.log(socketIoObj);
+const { Server } = socketIoObj;
 // and I am just destructuring Server out of my socketIoObj
 
 const app = express(); // now this app is my expressServer
 const PORT = 9000; // write any number
 
-// to use sockets we need http to be 
+// to use sockets we need http to be
 // integrated with my app that is expressServer
 
 // we are integrating http and express server
@@ -19,30 +21,31 @@ const io = new Server(server);
 // connection establish means
 // a frontend is accessing my backend
 io.on("connection", (socket) => {
-    // we are catching the event 
-    // that's getting emitted in UI
-    socket.on('this is event name',(data)=>{ // echo123 is the name of the event
-        io.emit('this is event name',data);
-    })
-    // so the IO is unique and it's associated
-    // with my server
-    // and sockets are multiple and are associated
-    // with frontend
+  // we are catching the event
+  // that's getting emitted in UI
+  console.log(socket.id);
+  socket.on("this is event name", (data) => {
+    // echo123 is the name of the event
+    io.emit("this is event name", data);
+  });
+  // so the IO is unique and it's associated
+  // with my server
+  // and sockets are multiple and are associated
+  // with frontend
 });
 // app.use(middleware);
 
 // using middleware I will send
 // my public folder to browser
 // the same way live sends
-app.use(express.static('public'));
+app.use(express.static("public"));
 // express.static is a internal method of
 // express used to send static html files
 //  in a folder
 
-server.listen(PORT,()=>{
-    console.log(`server is up and running on http://localhost:${PORT}/`)
+server.listen(PORT, () => {
+  console.log(`server is up and running on http://localhost:${PORT}/`);
 });
-
 
 // the moment my server is turned on
 // I should get an IO
@@ -53,6 +56,4 @@ server.listen(PORT,()=>{
 // either you can import from node modules or
 // access it through cdn
 
-
-
-// socket 
+// socket
