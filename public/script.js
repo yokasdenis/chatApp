@@ -50,6 +50,13 @@ socket.on("this is event name", (data) => {
 
 // click -> is basically emit
 // btn.addEvenListener('click',fn) -> .on
+socket.on("this is event name",(data)=>{
+  if(data.id!==socket.id){
+    renderMessage(data,RECIEVED)
+  }
+})
+
+
 
 function renderMessage(data, messageType) {
   const msgDiv = document.createElement("div");
